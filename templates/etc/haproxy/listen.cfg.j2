@@ -97,6 +97,10 @@ listen {{ listen.name }}
 
 {% endfor %}
 {% endfor %}
+{% for tcp_request in listen.tcp_request | default([]) %}
+  tcp-request {{ tcp_request.action }}{% if tcp_request.param is defined %} {{ tcp_request.param }}{% endif %}{% if tcp_request.cond is defined %} {{ tcp_request.cond }}{% endif %}
+
+{% endfor %}
 {% for action in ['reqdel', 'reqidel', 'rspdel', 'rspidel'] %}
 {% for params in listen[action] | default([]) %}
   {{ action }} {{ params.search }}{% if params.cond is defined %} {{ params.cond }}{% endif %}
