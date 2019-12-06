@@ -81,3 +81,6 @@ haproxy_userlists: []
 
 # ACL files
 haproxy_acl_files: []
+
+# certificates location
+haproxy_certs_directory: /etc/haproxy/certs

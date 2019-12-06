@@ -1,0 +1,20 @@
+- name: get all subdirectories
+  find:
+    paths:
+      - /etc/auto-cert/live
+      - /etc/letsencrypt/live
+    recurse: no
+    file_type: directory
+  register: service_subdirs
+  become: yes
+  become_user: root
+
+- name: create symlinks
+  file:
+    src: "{{item.path}}/fullchain_privkey.pem"
+    dest: "{{haproxy_certs_directory}}/{{ item.path | basename}}.pem"
+    state: link
+    follow: no
+  loop: "{{service_subdirs.files}}"
+  become: yes
+  become_user: root

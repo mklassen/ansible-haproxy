@@ -27,6 +27,12 @@
     - haproxy
     - haproxy-acl
 
+- import_tasks: symlinks.yml
+  tags:
+    - configuration
+    - haproxy
+    - haproxy-symlinks
+
 - import_tasks: configuration.yml
   tags:
     - configuration
