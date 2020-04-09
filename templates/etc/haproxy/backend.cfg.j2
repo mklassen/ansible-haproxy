@@ -105,6 +105,17 @@ backend {{ backend.name }}
   server {{ server.name }} {{ server.listen }}{% for param in server.param | default([]) %} {{ param }}{% endfor %}
 
 {% endfor %}
+{% if backend.server_template is defined %}
+  server-template {{ backend.server_template.name }} {% if backend.server_template.num is defined %}{{ backend.server_template.num}}{% elif backend.server_template.num_low is defined and backend.server_template.num_high is defined %}{{backend.server_template.num_low + '-' + backend.server_template.num_high}}{% endif %} {{ backend.server_template.fqdn }}{% if backend.server_template.port is defined %}:{{ backend.server_template.port }}{% endif %} {% for param in backend.server_template.params | default([]) %} {{ param }}{% endfor %}
+{% endif %}
+
+{% if backend.retry_on is defined %}
+  retry-on {% for r in backend.retry_on %}{{ r }} {% endfor %}
+{% endif %}
+
+{% if backend.retries is defined %}
+  retries {{ backend.retries }}
+{% endif %}
 {% for errorfile in backend.errorfile | default([]) %}
   errorfile {{ errorfile.code }} {{ errorfile.file }}
 {% endfor %}
