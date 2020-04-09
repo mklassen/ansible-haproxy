@@ -28,6 +28,7 @@
     - haproxy-acl
 
 - import_tasks: symlinks.yml
+  when: "{{haproxy_certs_directory}}"
   tags:
     - configuration
     - haproxy
