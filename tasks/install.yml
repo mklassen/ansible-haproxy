@@ -1,5 +1,4 @@
 # tasks file for haproxy
----
 - name: install | dependencies (pre)
   apt:
     name: "{{ haproxy_dependencies_pre }}"
@@ -12,7 +11,8 @@
 - name: install | add repository from PPA and install its signing key
   apt_repository:
     repo: "{{ haproxy_ppa }}"
-    update_cache: true
+    update_cache: false
+    mode: 0644
   when: haproxy_use_ppa | bool
   tags:
     - haproxy-install-add-repository
