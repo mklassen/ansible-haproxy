@@ -33,6 +33,12 @@
     - haproxy
     - haproxy-configuration
 
+- import_tasks: openssl.yml
+  tags:
+    - configuration
+    - haproxy
+    - haproxy-configuration
+
 - import_tasks: letsencrypt.yml
   tags:
     - configuration
