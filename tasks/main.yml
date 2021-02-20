@@ -45,6 +45,13 @@
     - haproxy
     - haproxy-configuration
 
+- name: Configure openssl
+  ansible.builtin.import_tasks: openssl.yml
+  tags:
+    - configuration
+    - haproxy
+    - haproxy-configuration
+
 - name: letsencrypt
   ansible.builtin.import_tasks: letsencrypt.yml
   tags:
