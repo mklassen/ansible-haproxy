@@ -29,3 +29,4 @@ ansible.cfg
 ###############
 !empty
 *.sw[po]
+.ansible/
