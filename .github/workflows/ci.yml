@@ -4,9 +4,7 @@ name: CI
   pull_request:
   push:
     branches:
-      - master
-  schedule:
-    - cron: '30 1 * * 3'
+      - cfmm
 
 jobs:
 
@@ -44,12 +42,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - distro: ubuntu1804
-            ansible-version: '>=9, <10'
-          - distro: ubuntu2004
-            ansible-version: '>=12, <13'
-          - distro: ubuntu2204
           - distro: ubuntu2404
+          - distro: ubuntu2604
 
     steps:
       - name: Check out the codebase
