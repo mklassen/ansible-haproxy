@@ -109,4 +109,22 @@ frontend {{ frontend.name }}
 {% for line in frontend.raw_options | default([]) %}
   {{ line }}
 {% endfor %}
+{% if frontend.stats is defined %}
+{% if frontend.stats.enable is defined and frontend.stats.enable | bool == true %}
+  stats enable
+  stats uri {{ frontend.stats.uri | default('/') }}
+{% if frontend.stats.refresh is defined %}
+  stats refresh {{ frontend.stats.refresh }}
+{% endif %}
+{% if frontend.stats.admin is defined %}
+  stats admin {{ frontend.stats.admin }}
+{% endif %}
+{% for option in frontend.stats.options | default([]) %}
+  stats {{ option }}
+{% endfor %}
+{% for auth in frontend.stats.auth | default([]) %}
+  stats auth {{ auth.user }}:{{ auth.passwd }}
+{% endfor %}
+{% endif %}
+{% endif %}
 {% endfor %}
