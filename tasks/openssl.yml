@@ -1,6 +1,7 @@
 # Custom openssl, e.g. support old protocols
 ---
 - name: Custom OpenSSL
+  when: haproxy_support_tlsv1_0 | default(False)
   block:
     - name: Copy the system default openssl.cnf
       ansible.builtin.copy:
@@ -39,7 +40,6 @@
           MinProtocol = TLSv1
           CipherString = DEFAULT:@SECLEVEL=1
       notify: restart haproxy
-  when: haproxy_support_tlsv1_0 | default(False)
 
 - name: Set custom openssl.conf environment
   ansible.builtin.lineinfile:

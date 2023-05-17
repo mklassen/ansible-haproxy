@@ -37,7 +37,8 @@
     - haproxy
     - haproxy-configuration
 
-- import_tasks: openssl.yml
+- name: Configure openssl
+  ansible.builtin.import_tasks: openssl.yml
   tags:
     - configuration
     - haproxy
