@@ -1,6 +1,7 @@
 # test file
 ---
-- hosts: localhost
+- name: Test role
+  hosts: localhost
   connection: local
   become: true
   pre_tasks:
