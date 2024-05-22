@@ -12,7 +12,7 @@
         group: root
         mode: 0640
         force: yes
-      notify: restart haproxy
+      notify: Restart haproxy
 
     - name: Set openssl_conf
       ansible.builtin.lineinfile:
@@ -20,7 +20,7 @@
         insertbefore: BOF
         line: openssl_conf = default_conf
         state: present
-      notify: restart haproxy
+      notify: Restart haproxy
 
     - name: Set TLS version
       ansible.builtin.blockinfile:
@@ -39,11 +39,11 @@
           [ssl_default_sect]
           MinProtocol = TLSv1
           CipherString = DEFAULT:@SECLEVEL=1
-      notify: restart haproxy
+      notify: Restart haproxy
 
 - name: Set custom openssl.conf environment
   ansible.builtin.lineinfile:
     path: /etc/default/haproxy
     line: OPENSSL_CONF=/etc/haproxy/openssl.cnf
     state: "{% if haproxy_support_tlsv1_0 | default(False) %}present{% else %}absent{% endif %}"
-  notify: restart haproxy
+  notify: Restart haproxy
