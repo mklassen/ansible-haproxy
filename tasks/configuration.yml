@@ -19,6 +19,6 @@
     mode: 0640
     validate: 'haproxy -f %s -c'
     backup: "{{ haproxy_backup_config | default(False) }}"
-  notify: restart haproxy
+  notify: Restart haproxy
   tags:
     - haproxy-configuration-update-file
