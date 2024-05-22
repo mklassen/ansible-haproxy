@@ -21,7 +21,7 @@
     mode: "{{ item.mode | default('0640') }}"
   with_items: "{{ haproxy_ssl_map }}"
   when: item.state is undefined or item.state == 'present'
-  notify: restart haproxy
+  notify: Restart haproxy
   tags:
     - haproxy-certificates-copy-files
 
@@ -31,6 +31,6 @@
     state: absent
   with_items: "{{ haproxy_ssl_map }}"
   when: item.state is defined and item.state == 'absent'
-  notify: restart haproxy
+  notify: Restart haproxy
   tags:
     - haproxy-certificates-remove-files

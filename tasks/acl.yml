@@ -19,6 +19,6 @@
     group: "{{ item.group | default('root') }}"
     mode: "{{ item.mode | default('0640') }}"
   with_items: "{{ haproxy_acl_files }}"
-  notify: restart haproxy
+  notify: Restart haproxy
   tags:
     - haproxy-acl-update-files
