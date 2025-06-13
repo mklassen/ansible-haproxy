@@ -16,6 +16,7 @@ haproxy_versions_supported:
   - '2.7'
   - '2.8'
   - '3.0'
+  - '3.2'
 
 haproxy_dependencies_pre:
   - software-properties-common
