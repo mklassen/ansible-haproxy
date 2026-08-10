@@ -20,11 +20,14 @@
     - haproxy-repository-keyrings-directory-create
 
 - name: repository | (keyring) file | download
-  ansible.builtin.apt_key:
-    id: "{{ haproxy_keyring_id }}"
-    keyserver: "{{ apt_key_keyserver | default('keyserver.ubuntu.com') }}"
-    keyring: "{{ haproxy_keyring_dst }}"
-    state: present
+  ansible.builtin.command:
+    cmd: >
+      gpg --no-default-keyring
+      --keyring {{ haproxy_keyring_dst }}
+      --keyserver hkps://keyserver.ubuntu.com
+      --recv-keys {{ haproxy_keyring_id }}
+  args:
+    creates: "{{ haproxy_keyring_dst }}"
   tags:
     - haproxy-repository-keyring-file-download
 
@@ -37,11 +40,21 @@
     - haproxy-repository-cleanup
 
 - name: repository | add
-  ansible.builtin.apt_repository:
-    repo: "{{ item.type }} {{ item.url }} {{ item.component }}"
+  ansible.builtin.deb822_repository:
+    types: "{{ item.type }}"
+    uris: "{{ item.url }}"
+    components: "{{ item.component }}"
+    signed_by: "{{ haproxy_keyring_dst }}"
     state: "{{ item.state | default('present') }}"
-    update_cache: true
     mode: '0644'
   with_items: "{{ haproxy_repositories }}"
   tags:
     - haproxy-repository-add
+  register: haproxy_repositories_add_results
+
+- name: repository | add (update cache)
+  ansible.builtin.apt:
+    update_cache: true
+  tags:
+    - haproxy-repository-add
+  when: haproxy_repositories_add_results is changed
