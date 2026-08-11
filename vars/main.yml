@@ -24,8 +24,10 @@ haproxy_versions_supported:
 haproxy_keyring_id: 3D653970FBAB0A890E4E4E9A0F14D8B0CF4EFE96
 haproxy_keyring_dst: /usr/share/keyrings/haproxy.gpg
 haproxy_repositories:
-  - type: "deb"
-    url: "https://ppa.launchpadcontent.net/vbernat/haproxy-{{ haproxy_version }}/{{ ansible_facts['distribution'] | lower }} {{ ansible_facts['distribution_release'] }}"
+  - name: "haproxy-{{ haproxy_version }}"
+    type: "deb"
+    url: "https://ppa.launchpadcontent.net/vbernat/haproxy-{{ haproxy_version }}/{{ ansible_facts['distribution'] | lower }}"
+    suite: "{{ ansible_facts['distribution_release'] }}"
     component: main
 _haproxy_version_sources_list_d: "{{ (haproxy_version | string).split('.') | join('_') }}"
 haproxy_repository_files_absent:
