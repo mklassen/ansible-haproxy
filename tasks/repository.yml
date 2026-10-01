@@ -9,32 +9,6 @@
   tags:
     - haproxy-repository-install-dependencies
 
-- name: repository | (keyrings) directory | create
-  ansible.builtin.file:
-    path: "{{ haproxy_keyring_dst | dirname }}"
-    state: directory
-    owner: root
-    group: root
-    mode: '0755'
-  tags:
-    - haproxy-repository-keyrings-directory-create
-
-- name: repository | (keyring) file | download
-  ansible.builtin.get_url:
-    url: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x{{ haproxy_keyring_id }}"
-    dest: "{{ haproxy_keyring_dst }}.asc"
-    mode: "0644"
-  tags:
-    - haproxy-repository-keyring-file-download
-
-- name: repository | (keyring) file | dearmor
-  ansible.builtin.command:
-    cmd: gpg --dearmor -o {{ haproxy_keyring_dst }} {{ haproxy_keyring_dst }}.asc
-  args:
-    creates: "{{ haproxy_keyring_dst }}"
-  tags:
-    - haproxy-repository-keyring-file-download
-
 - name: repository | cleanup
   ansible.builtin.file:
     path: "{{ item }}"
@@ -50,7 +24,7 @@
     uris: "{{ item.url }}"
     suites: "{{ item.suite }}"
     components: "{{ item.component }}"
-    signed_by: "{{ haproxy_keyring_dst }}"
+    signed_by: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x{{ haproxy_keyring_id }}
     state: "{{ item.state | default('present') }}"
     mode: '0644'
   with_items: "{{ haproxy_repositories }}"

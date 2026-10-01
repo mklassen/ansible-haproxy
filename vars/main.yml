@@ -38,6 +38,7 @@ haproxy_dependencies_pre:
   - software-properties-common
   - dirmngr
   - apt-transport-https
+  - python3-debian
 
 haproxy_letsencrypt_ssl_deploy: /usr/local/bin/haproxy-letsencrypt-ssl-deploy
 
