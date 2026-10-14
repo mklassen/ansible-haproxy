@@ -36,6 +36,7 @@ frontend {{ frontend.name }}
 {% endfor %}
 {% for filter in frontend.filter | default([]) %}
   filter {{ filter.name }}{% for param in filter.param | default([]) %} {{ param }}{% endfor %}
+
 {% endfor %}
 {% for acl in frontend.acl | default([]) %}
   acl {{ acl.string }}
